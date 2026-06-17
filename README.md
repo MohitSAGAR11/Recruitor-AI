@@ -246,8 +246,3 @@ graph LR
 - **SSE Job Store**: In-memory — don't restart the backend mid-scoring
 - **Image PDFs**: PDFs with <100 extracted characters return a warning to paste text manually
 
----
-
-## 📄 License
-
-MIT
