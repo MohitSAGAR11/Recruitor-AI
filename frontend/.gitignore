@@ -53,3 +53,4 @@ coverage/
 
 # Storybook (if ever added)
 storybook-static/
+.vercel
