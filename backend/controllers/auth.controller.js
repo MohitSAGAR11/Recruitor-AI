@@ -1,16 +1,21 @@
 import { query } from '../db/pool.js';
 import { hashPassword, verifyPassword, signToken } from '../services/auth.service.js';
 
-const emailOk = (e) => typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+const emailOk = (e) => typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
+const passwordOk = (p) => typeof p === 'string' && p.length >= 8;
+const nameOk = (n) => typeof n === 'string' && n.trim().length >= 2 && n.trim().length <= 100;
 
 /** POST /api/auth/signup { email, password, name } */
 export async function signup(req, res) {
   const { email, password, name } = req.body || {};
   if (!emailOk(email)) {
-    return res.status(400).json({ success: false, error: 'A valid email is required.', code: 'BAD_EMAIL' });
+    return res.status(400).json({ success: false, error: 'A valid email address is required.', code: 'BAD_EMAIL' });
   }
-  if (!password || password.length < 6) {
-    return res.status(400).json({ success: false, error: 'Password must be at least 6 characters.', code: 'WEAK_PASSWORD' });
+  if (!passwordOk(password)) {
+    return res.status(400).json({ success: false, error: 'Password must be at least 8 characters.', code: 'WEAK_PASSWORD' });
+  }
+  if (!nameOk(name)) {
+    return res.status(400).json({ success: false, error: 'Name must be between 2 and 100 characters.', code: 'BAD_NAME' });
   }
 
   const existing = await query('select id from app_users where email = $1', [email.toLowerCase()]);
