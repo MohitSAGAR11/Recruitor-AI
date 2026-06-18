@@ -1,10 +1,11 @@
 import express from 'express';
 import { startScoringBatch, getScoringProgress } from '../controllers/score.controller.js';
+import { aiLimiter } from '../middleware/ratelimit.middleware.js';
 
 const router = express.Router();
 
 // POST /api/score/batch — starts async scoring, returns jobId immediately
-router.post('/batch', startScoringBatch);
+router.post('/batch', aiLimiter, startScoringBatch);
 
 // GET /api/score/progress/:jobId — SSE stream for real-time progress
 router.get('/progress/:jobId', getScoringProgress);
