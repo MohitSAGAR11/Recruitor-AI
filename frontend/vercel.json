@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://recruitor-ai-backend.onrender.com/api/:path*"
+      "destination": "https://recruitor-ai-backend-e4ib.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
